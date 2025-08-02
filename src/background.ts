@@ -1,3 +1,5 @@
+importScripts('browser-polyfill.min.js');
+
 chrome.runtime.onInstalled.addListener(() => {
   console.log("Extension installed");
 });

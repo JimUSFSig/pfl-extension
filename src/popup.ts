@@ -1,6 +1,8 @@
+import browser from 'webextension-polyfill';
+
 document.addEventListener("DOMContentLoaded", () => {
   const loginButton = document.getElementById("login") as HTMLButtonElement;
-  const domainInput = document.getElementById("lms-domain") as HTMLInputElement;
+  const domainInput = document.getElementById("pfl-domain") as HTMLInputElement;
 
   loginButton.addEventListener("click", () => {
     const domain = domainInput.value;
