@@ -27,7 +27,7 @@ export default defineConfig({
       ]
     }),
       webExtension({
-        manifest: './src/manifest.json', // or wherever your source manifest is
+        manifest: './public/manifest.json', // or wherever your source manifest is
         assets: 'icons',                // optional: folder for icons or static files
         useDynamicUrl: false             // optional: avoid using dynamic URLs in dev
         })
