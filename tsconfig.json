@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["DOM", "ESNext"],
+    "types": ["chrome", "webextension-polyfill"],
+    "lib": ["DOM", "ESNext", "WebWorker"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "strict": true,
