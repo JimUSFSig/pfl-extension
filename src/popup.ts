@@ -3,12 +3,19 @@ import browser from 'webextension-polyfill';
 document.addEventListener("DOMContentLoaded", () => {
 
   async function getCurrentTabTitle(): Promise<string | undefined> {
-  const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-  if (tabs.length > 0 && tabs[0].title) {
-    return tabs[0].title;
+    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+    if (tabs.length > 0 && tabs[0].title) {
+      return tabs[0].title;
+    }
+    return undefined;
   }
-  return undefined;
-}
+
+  getCurrentTabTitle().then((title) => {
+    const titleElement = document.getElementById("page-title");
+    if (titleElement) {
+      titleElement.textContent = title ?? "Unknown title";
+    }
+  });
 
 getCurrentTabTitle().then(title => {
   console.log("Current tab title:", title);
