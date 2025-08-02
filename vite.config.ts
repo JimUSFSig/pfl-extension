@@ -1,4 +1,6 @@
 import { defineConfig } from 'vite';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
+import webExtension from 'vite-plugin-web-extension';
 import { resolve } from 'path';
 
 export default defineConfig({
@@ -14,5 +16,15 @@ export default defineConfig({
     },
     outDir: 'dist',
     emptyOutDir: true
-  }
+  },
+    plugins: [
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'public/*',
+          dest: '.' // Copy into root of dist/
+        }
+      ]
+    })
+  ]
 });
