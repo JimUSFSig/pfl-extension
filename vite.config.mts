@@ -1,44 +1,32 @@
+import fs from 'fs';
+
+const bgPath = resolve(__dirname, 'src/background.ts');
+if (!fs.existsSync(bgPath)) {
+  throw new Error(`background.ts not found at ${bgPath}`);
+}
+console.log("Resolved background path:", resolve(__dirname, 'src/background.ts'));
+
+
 import { defineConfig } from 'vite';
-// import { viteStaticCopy } from 'vite-plugin-static-copy';
 import { crx } from '@crxjs/vite-plugin';
 import manifest from './src/manifest.json';
 import { resolve } from 'path';
 
+console.log('Using manifest background value:', manifest.background);
 
 export default defineConfig({
   build: {
-    // rollupOptions: {
-    //   input: {
-    //     background: resolve(__dirname, 'src/background.ts'),
-    //     popup: resolve(__dirname, 'src/popup.ts')
-    //   },
-    //   output: {
-    //     entryFileNames: '[name].js'
-    //   }
-    // },
     outDir: 'dist',
-    emptyOutDir: true
+    emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        'background.js': resolve(__dirname, 'src/background.ts'),
+        'popup.html': resolve(__dirname, 'src/popup.html')
+      },
+      output: {
+        entryFileNames: '[name]' // important — do not add `.js`
+      }
+    }
   },
-    plugins: [
-    // viteStaticCopy({
-    //   targets: [
-    //     {
-    //       src: 'public/*',
-    //       dest: '.',
-    //       structured: true
-    //     },
-    //     { 
-    //       src: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js', 
-    //       dest: '.' 
-    //     }
-    //   ]
-    // }),
-    crx({ 
-      manifest,
-        input: {
-          background: resolve(__dirname, 'src/background.ts'),
-          popup: resolve(__dirname, 'src/popup.html')
-      } 
-    })
-  ]
+  plugins: [crx({ manifest })]
 });
