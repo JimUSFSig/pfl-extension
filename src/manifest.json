@@ -4,13 +4,12 @@
   "description": "Search LMS training based on the current page.",
   "version": "0.9.1",
   "permissions": ["storage", "scripting", "tabs", "cookies", "contextMenus"],
-  "optional_host_permissions": ["<all_urls>"],
   "host_permissions": ["<all_urls>"],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "src/background.ts"
   },
   "action": {
-    "default_popup": "src/popup.html",
+    "default_popup": "public/popup.html",
     "default_icon": "icons/icon48.png"
   },
   "icons": {

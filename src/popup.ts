@@ -1,4 +1,6 @@
 import browser from 'webextension-polyfill';
+import './words.js';
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -17,28 +19,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-getCurrentTabTitle().then(title => {
-  console.log("Current tab title:", title);
-});
+  getCurrentTabTitle().then(title => {
+   console.log("Current tab title:", title);
+  });
 
-  // const loginButton = document.getElementById("login") as HTMLButtonElement;
-  // const domainInput = document.getElementById("pfl-domain") as HTMLInputElement;
+  const urlInput = document.getElementById("urlInput") as HTMLInputElement;
+  const saveButton = document.getElementById("saveButton") as HTMLButtonElement;
+  const status = document.getElementById("status") as HTMLParagraphElement;
 
+  document.addEventListener("DOMContentLoaded", async () => {
+    // Load saved URL if it exists
+    const result = await chrome.storage.sync.get("savedURL");
+    if (result.savedURL) {
+      urlInput.value = result.savedURL;
+    }
+  });
 
-  // loginButton.addEventListener("click", () => {
-  //   const domain = domainInput.value;
-  //   chrome.permissions.request({ origins: [domain] }, (granted) => {
-  //     if (granted) {
-  //       await browser.runtime.sendMessage({ type: "checkLogin", lmsUrl: domain }, (response) => {
-  //         if (response.loggedIn) {
-  //           alert("You're logged in!");
-  //         } else {
-  //           window.open(domain + "/login", "_blank");
-  //         }
-  //       });
-  //     } else {
-  //       alert("Permission denied for domain: " + domain);
-  //     }
-  //   });
-  // });
+  saveButton.addEventListener("click", async () => {
+    const url = urlInput.value.trim();
+    if (!url) {
+      status.textContent = "Please enter a valid URL.";
+      return;
+    }
+
+    await chrome.storage.sync.set({ savedURL: url });
+    status.textContent = "URL saved!";
+  });
+
 });
